@@ -1,0 +1,31 @@
+* {
+	box-sizing: border-box;
+  /* outline: solid 1px red; */
+}
+
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+input {
+  height: 40px;
+  width: 200px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.btn {
+  height: 40px;
+  width: 80px;
+  background-color: #168FA1;
+  border: none;
+  font-size: 22px;
+  color: white;
+  font-family: "Roboto";
+}
+
+.hidden {
+  display: none;
+}

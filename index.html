@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pirate Bartender</title>
+    <link rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Pirate Bartender</h1>
+        <div class="intro">
+            <h2 class="intro">Hi there, what's your name?</h2>
+            <form>
+                <input type="text" id="customer-name"/>
+                <button class="btn btn--submit btn_welcome">Enter</button>
+            </form>
+        </div>
+        <h4 class="welcome hidden">Ahoy, matey! Tell me what type of drink ye like!</h4>
+        <h4 class="questions hidden"></h4>
+        <form name="ask-question-form" class="ask-question hidden">
+            <button class="start">Start</button>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="app.js"></script>
 </body>
+
 </html>
