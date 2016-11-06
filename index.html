@@ -15,12 +15,24 @@
     <div class="container">
         <h1>Pirate Bartender</h1>
         <div class="intro">
-            <h2 class="intro">Hi there, what's your name?</h2>
+            <h2 class="intro">Welcome, what would you like?</h2>
+            <button class="btn btn-order order-drink">Order drink</button>
+            <button class="btn btn-order order-burger">Order burger</button>
+        </div>
+        <div class="enter-name hidden">
+            <h2>Great, what's your name?</h2>
             <form>
                 <input type="text" id="customer-name"/>
-                <button class="btn btn--submit btn_welcome">Enter</button>
+                <button class="btn btn--submit btn_name">Enter</button>
             </form>
         </div>
+        <div>
+          <form class='questions-form'>
+          </form>
+        </div>
+
+
+
         <h4 class="welcome hidden">Ahoy, matey! Tell me what type of drink ye like!</h4>
         <h4 class="questions hidden"></h4>
         <form name="ask-question-form" class="ask-question hidden">
