@@ -1,159 +1,146 @@
 $(function() {
 
-var Question = function(question, property){
-  this.question = question;
-  this.property = property;
-};
-
-function Ingredient(name, type){
-  this.type = type;
-  this.name = name;
-}
-
-function Pantry(name){
-  this.name = name;
-  this.contents = {};
-}
-
-Pantry.prototype.addIngredient = function(ingredient){
-  if (this.contents[ingredient.type]){
-    this.contents[ingredient.type].push(ingredient.name);
-  } else {
-    this.contents[ingredient.type] = [ingredient.name];
-  }
-}
-
-Pantry.prototype.getAllIngredients = function(type){
-  return this.contents[type];
-}
-
-Pantry.prototype.getIngredient = function(type){
-  var numIngredients = this.contents = this.contents[type].length;
-  var random = Math.floor(Math.random() * numIngredients);
-  return this.contents[type][random];
-}
-
-var Worker = function(name){
-  this.name = name;
-  this.questions = []
-  this.customers = [];
-}
-
-Worker.prototype.who = function(){
-    alert("My name is " + this.name);
-}
-
-Worker.prototype.greet = function(){
-  var name = prompt("So, what's your name?");
-  if(this.custoomers[name]){
-    alert ("Welcome back " + name);
-    alert("Here is your favorite" + this.customers[name].favorite)
-  } else {
-    var newCustomer = Customer(name);
-    this.customers[name] == newCustomer;
-  }
-}
-
-var Bartender = function (name){
-  Worker.call(this.name);
-  this.questions = []
-}
-
-Bartender.prototype = Object.create(Worker.prototype);
-Bartender.prototype.constructor = Bartender;
-
-Bartender.prototype.askQuestions = function(question){
-  this.questions.push(question)
-}
-var bar = new Bartender('bar');
-// var chef = new Chef('chef');
-// var mypantry = new mypantry('pantry');
-
-// Pantry.addIngredient(new Ingredient('sugar', 'sweet'));
-// Pantry.addIngredient(new Ingredient('salt', 'salty'));
-// Pantry.addIngredient(new Ingredient('agave', 'sweet'));
-
-function addQuestion(question){
-  this.questions.push(question)
-}
-
-var newQuestion = new Question('Do you like yer drinks strong?', 'strong')
-addQuestion(newQuestion);
-var newQuestion = new Question('Do ye like it with a salty tang?', 'salty')
-addQuestion(newQuestion);
-var newQuestion = new Question('Are ye a lubber who likes it bitter?', 'bitter')
-addQuestion(newQuestion);
-var newQuestion = new Question('Would ye like a bit of sweetness with yer poison?', 'sweet')
-addQuestion(newQuestion);
-var newQuestion = new Question('Are ye one for a fruity finish?', 'fruity')
-addQuestion(newQuestion);
-
-
-var Customer = function(name, drink){
-  this.name = name;
-  this.favorite = drink;
-}
-
-var Drink = function(name, ingredients){
-  // array of the ingredients object
-}
-
-$('.order-drink').click(function(){
-  worker = "bar";
-  // can I use just Bartender above
-  $('.intro').addClass("hidden");
-  $('.enter-name').removeClass("hidden");
-    // bar.asksQuestions();
-});
-
-nameForm();
-function nameForm() {
-  $('.btn_name').on('click', function(event){
-    event.preventDefault();
-    var customerName = $('#customer-name').val();
-    console.log(customerName);
-    if(customerName.length === 0){
-      alert("Please enter a name!")
+    // Define contstructors
+    var Question = function(question, property) {
+        this.question = question;
+        this.property = property;
     };
-    $('.enter-name').addClass('hidden');
-    askQuestions();
-  });
-};
-  // hide after name submitted
 
-  function askQuestions(){
-      var html = "";
-      for (var i=0; i < this.questions.length; i++)  {
-      html += this.questions[i].question;
-      html += "<input type='checkbox' class='option' name='preference'";
-      html += "value='" + this.questions[i].property + "'<br/><br/>";
-      }
-      html += "<input type='submit' class='btn btn-preferences' value='Submit Order'>";
-      $('.questions-form').html(html);
-      console.log(questions);
-  };
+    var Pantry = function(name) {
+        this.name = name;
+        this.contents = {};
+    }
 
-// init();
-// function init(){
-//   BartenderAsks.push(Questions);
-//   People.push(Worker);
-//   console.log(Questions);
-//   console.log(Worker);
-// };
-//
-// start();
-// function start(){
-//   $('.start').click(function() {
-//     $('.welcome').hide();
-//     $('.start').hide();
-//     askQuestion();
-//   });
-//
-// };
+    // Add ingredients to the pantry, create type if needed
+    Pantry.prototype.addIngredient = function(ingredient) {
+        if (this.contents[ingredient.type]) {
+            this.contents[ingredient.type].push(ingredient.name);
+        } else {
+            this.contents[ingredient.type] = [ingredient.name];
+        }
+    }
+    // get ingredients from the pantry in order to make drink/food
+    Pantry.prototype.getIngredient = function(property) {
+      var numIngredients = this.contents[property].length
+      var random = Math.floor(Math.random()*numIngredients);
+      console.log(random)
+      return this.contents[property][random];
+    }
+
+    var Ingredient = function(name, type) {
+        this.name = name;
+        this.type = type;
+    }
+
+    var Customer = function(name, drink, preferences) {
+        this.name = name;
+        this.favorite = drink;
+        this.preferences = preferences;
+    }
+
+    var Worker = function(name, questions, customers) {
+        this.name = name;
+        this.questions = [];
+        this.customers = {};
+    }
+
+    var Bartender = function(name) {
+        this.name = name;
+        this.questions = [];
+    }
+
+    Bartender.prototype = Object.create(Worker.prototype);
+    Bartender.prototype.constructor = Bartender;
+
+    Bartender.prototype.addQuestion = function(question) {
+        this.questions.push(question);
+    }
+
+    // create a new pantry + bartender
+    var pantry = new Pantry();
+    var ryan = new Bartender("Ryan");
+
+    // define available ingredients
+    pantry.addIngredient(new Ingredient(['glug of rum', 'slug of whisky', 'splash of gin'], 'strong'));
+    pantry.addIngredient(new Ingredient(['olive on a stick', 'salt-dusted rim', 'rasher of bacon'], 'salty'));
+    pantry.addIngredient(new Ingredient(['shake of bitters', 'splash of tonic', 'twist of lemon peel'], 'bitter'));
+    pantry.addIngredient(new Ingredient(['sugar cube', 'spoonful of honey', 'splash of cola'], 'sweet'));
+    pantry.addIngredient(new Ingredient(['slice of orange', 'dash of cassis', 'cherry on top'], 'fruity'));
+
+    // define bartender questions
+    ryan.addQuestion(new Question("Do ye like yer drinks strong?", "strong"));
+    ryan.addQuestion(new Question("Do ye like it with a salty tang?", "salty"));
+    ryan.addQuestion(new Question("Are ye a lubber who likes it bitter?", "bitter"));
+    ryan.addQuestion(new Question("Would ye like a bit of sweetness with yer poision?", "sweet"));
+    ryan.addQuestion(new Question("Are ye one for a fruity finish?", "fruity"));
+
+    console.log(pantry)
+    console.log(ryan.questions)
+
+
+    // ask user for name when order drink is clicked
+    $('.order-drink').click(function() {
+        // tell it to grab the bartender
+        $('.intro').addClass("hidden");
+        $('.enter-name').removeClass("hidden");
+    });
+
+    // capture name on input and display drink questions
+    $(document).on('click', '.btn_name', function(event) {
+        event.preventDefault();
+        var customerName = $('#customer-name').val();
+        if (customerName.length === 0) {
+            alert("Please enter a name!")
+        } else {
+            $('.enter-name').addClass('hidden');
+            // check if the user has been here before --> serve regular drink
+            console.log(customerName);
+            askQuestions();
+        };
+    });
+
+    var count = 0;
+    var guest = new Customer("Bill", "", []);
+
+    // ask questions about drink type
+    function askQuestions() {
+        $(".questions-form").empty();
+        if (count < ryan.questions.length) {
+            var displayQuestion = "<label for='userpref'>" + ryan.questions[count].question + "</label>";
+            var answer = "<select id='userpref'><option value='yes'>Aye!</option><option value='no'>Nay</option></select>";
+            var nextQuestion = "<br><button id='nextQuestion' type='button' class='btn btn-success'>Next</button>";
+            $(".questions-form").append(displayQuestion, answer, nextQuestion);
+        } else {
+            var submitOrder = "<button type='submit' class='btn btn-order' id='submitOrder'>Make drink</button>";
+            $(".questions-form").append(submitOrder);
+        }
+    };
+
+    $(document).on("click", "#nextQuestion", function() {
+        if ($("#userpref").val() === "yes") {
+            guest.preferences.push(ryan.questions[count].property);
+
+        }
+        count++;
+        askQuestions();
+    });
+
+    $(document).on('click', '#submitOrder', function(event) {
+        event.preventDefault();
+        // if (guest.preferences === []){
+        // alert("We don't serve water");
+
+        // assign preferences with that customer
+        // guest.preferences == this.preferences
+        // bartender should make drink
+        for (var i = 0; i < guest.preferences.length; i++){
+            pantry.getIngredient(guest.preferences[i]);
+            console.log(guest.preferences)
+        }
 
 
 
-
+    });
 
 
 }); // end of doc ready
