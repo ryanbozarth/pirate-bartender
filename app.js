@@ -23,7 +23,6 @@ $(function() {
     Pantry.prototype.getIngredient = function(property) {
         var numIngredients = this.contents[property].length
         var random = Math.floor(Math.random() * numIngredients);
-        console.log(random)
         return this.contents[property][random];
     }
 
@@ -44,7 +43,18 @@ $(function() {
         this.customers = {};
     }
 
-    var Drink = function (name, ingredients){
+    Worker.prototype.addCustomer = function(customer) {
+        this.customers[customer.name] = customer;
+    };
+
+    // Worker.prototype.greetCustomer = function (customer) {
+    //     if (this.customers[name]){
+    //       customers.find(name);
+    //       alert(name);
+    //     }
+    // // };
+
+    var Drink = function(name, ingredients) {
         this.name = name;
         this.ingredients = ingredients;
     }
@@ -61,19 +71,28 @@ $(function() {
         this.questions.push(question);
     }
 
-
-
-    Bartender.prototype.makeDrink = function(preferences){
-      var ingredients = []
-
+    Bartender.prototype.makeDrink = function(preferences) {
+        var ingredients = []
         for (var i = 0; i < guest.preferences.length; i++) {
             ingredients.push(pantry.getIngredient(guest.preferences[i]));
         }
-        // var name = ryan.nameDrink();
-        //var drink = new Drink(name, ingredients);
-        // this.customers[guest.name] = drink;
-        // key is name, value is drink favorite
+        console.log(ingredients);
+        var name = ryan.nameDrink();
+
+        var drink = new Drink(name, ingredients);
+         this.customers[guest.name] = drink;
+         console.log(drink)
     }
+
+    Bartender.prototype.nameDrink = function(ingredients){
+            var adjectiveIndex = random(drinkAdj.length);
+            var nounIndex = random(drinkNouns.length);
+            var drinkName = drinkAdj[adjectiveIndex] + " " + drinkNouns[nounIndex];
+            console.log(drinkName)
+            return drinkName;
+
+        };
+
 
     // create a new pantry + bartender
     var pantry = new Pantry();
@@ -111,15 +130,16 @@ $(function() {
     var drinkNouns = ["landlubber", "grog", "crow's nest", "cog", "booty", "sea dog", "scurvy dog", "fathom"];
 
     console.log(pantry)
-    console.log(ryan.questions)
+    console.log(ryan)
 
-    function random (max) {
-      return Math.floor(Math.random() * max);
+    // Random number generator
+    function random(max) {
+        return Math.floor(Math.random() * max);
     };
 
     // ask user for name when order drink is clicked
     $('.order-drink').click(function() {
-        // tell it to grab the bartender
+        // grab the bartender
         $('.intro').addClass("hidden");
         $('.enter-name').removeClass("hidden");
     });
@@ -129,13 +149,10 @@ $(function() {
         event.preventDefault();
         var customerName = $('#customer-name').val();
         $('.enter-name').addClass('hidden');
-        // check if the user has been here before --> serve regular drink
-        // var drink = ryan.greetCustomer(customerName)
-        // if () {
-            //display drinks
-            askQuestions();
+        // ryan.greetCustomer();
+        askQuestions();
         // } else {
-            // askQuestions();
+        // askQuestions();
         // }
         console.log(customerName);
     });
@@ -160,6 +177,7 @@ $(function() {
     $(document).on("click", "#nextQuestion", function() {
         if ($("#userpref").val() === "yes") {
             guest.preferences.push(ryan.questions[count].property);
+            console.log(guest.preferences);
         }
         count++;
         askQuestions();
@@ -170,26 +188,16 @@ $(function() {
         if (guest.preferences.length === 0) {
             alert("We don't serve water");
         } else {
-            // assign preferences with that customer
             var drink = ryan.makeDrink(guest.preferences)
-            // guest.preferences == this.preferences
-            // bartender should make drink
-            nameDrink();
-
-
+                // guest.preferences == this.preferences
+                // bartender should make drink
+            // nameDrink();
         }
     });
 
-    function nameDrink() {
-          var adjectiveIndex = random(drinkAdj.length);
-          var nounIndex = random(drinkNouns.length);
-          var drinkName = drinkAdj[adjectiveIndex] + " " + drinkNouns[nounIndex];
-          return drinkName;
-      };
-
-    function displayResults(drink, ingredients){
+    function displayDrink(drink, ingredients) {
         $(".results").append("<h3>" + drink + "</h3>");
         $(".results").append("<h5>" + ingredients + "</h5>");
-     }
+    }
 
 }); // end of doc ready
