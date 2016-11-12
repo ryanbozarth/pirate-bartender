@@ -139,9 +139,10 @@ $(function() {
     };
 
     // ask user for name when order drink is clicked
-    $('.order-drink').click(function() {
+    $(document).on('click', '.order-drink', function(event) {
         $('.intro').addClass("hidden");
         $('.enter-name').removeClass("hidden");
+        $('#customerName').val("");
     });
 
     // capture name on input and display drink questions
@@ -186,26 +187,30 @@ $(function() {
         event.preventDefault();
         if (guest.preferences.length === 0) {
             alert("We don't serve water");
+            $('.questions-form').addClass("hidden");
+            $(".results").append("<button class='btn btn-order start-over'>Start Over</button>");
         } else {
             var drink = ryan.makeDrink(guest.name, guest.preferences)
-            displayDrink();
-            startOver();
+            displayDrink(drink);
+            $('.questions-form').addClass("hidden");
+            $(".results").append("<button class='btn btn-order start-over'>Start Over</button>");
         }
     });
 
-    function displayDrink(drinkName, ingredients) {
-        $(".results").append("<h3>" + drink + "</h3>");
-        $(".results").append("<h5>" + ingredients + "</h5>");
+    function displayDrink(drink) {
+        $(".results").append("<h3>Here is your: " + drink.name + "</h3>");
+        $(".results").append("<h5>It contains: " + drink.ingredients.join(", ") + "</h5>");
     }
 
-    function startOver(){
-        
-    }
+    $(document).on('click', '.start-over', function(event) {
+        event.preventDefault();
+        $(".results").empty();
+        $(".questions-form").empty();
+        $('.intro').removeClass("hidden");
+        $('.questions-form').removeClass('hidden');
+    });
 
 }); // end of doc ready
 
 // TODO
 // don't provide questions if you know the customer, serve drinks
-// build start over state
-// update the UI to reflect what's happening
-//
