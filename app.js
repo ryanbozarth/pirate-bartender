@@ -11,7 +11,7 @@ $(function() {
         this.contents = {};
     }
 
-    // Add ingredients to the pantry, create type if needed
+    // Add ingredients to the pantry, create new type if needed
     Pantry.prototype.addIngredient = function(ingredient) {
             if (this.contents[ingredient.type]) {
                 this.contents[ingredient.type].push(ingredient.name);
@@ -19,7 +19,7 @@ $(function() {
                 this.contents[ingredient.type] = [ingredient.name];
             }
         }
-        // get ingredients from the pantry in order to make drink/food
+    // get ingredients from the pantry in order to make drink/food
     Pantry.prototype.getIngredient = function(property) {
         var numIngredients = this.contents[property].length
         var random = Math.floor(Math.random() * numIngredients);
@@ -37,9 +37,8 @@ $(function() {
         this.favorite = {};
     }
 
-    var Worker = function(name, questions, customers) {
+    var Worker = function(name) {
         this.name = name;
-        this.questions = [];
         this.customers = {};
     }
 
@@ -47,12 +46,13 @@ $(function() {
         this.customers[customer.name] = customer;
     };
 
-    // Worker.prototype.greetCustomer = function (customer) {
-    //     if (this.customers[name]){
-    //       customers.find(name);
-    //       alert(name);
-    //     }
-    // // };
+    Worker.prototype.greetCustomer = function (customer) {
+        if (this.customers[customer.name]){
+         console.log("found customer");
+     } else {
+         this.customers[customer.name] = customer;
+     }
+    };
 
     var Drink = function(name, ingredients) {
         this.name = name;
@@ -60,7 +60,7 @@ $(function() {
     }
 
     var Bartender = function(name) {
-        this.name = name;
+        Worker.call(this, name);
         this.questions = [];
     }
 
@@ -71,17 +71,19 @@ $(function() {
         this.questions.push(question);
     }
 
-    Bartender.prototype.makeDrink = function(preferences) {
+    Bartender.prototype.makeDrink = function(name, preferences) {
         var ingredients = []
-        for (var i = 0; i < guest.preferences.length; i++) {
-            ingredients.push(pantry.getIngredient(guest.preferences[i]));
+        for (var i = 0; i < preferences.length; i++) {
+            ingredients.push(pantry.getIngredient(preferences[i]));
         }
         console.log(ingredients);
-        var name = ryan.nameDrink();
+        var drinkName = this.nameDrink();
 
-        var drink = new Drink(name, ingredients);
-         this.customers[guest.name] = drink;
-         console.log(drink)
+        var drink = new Drink(drinkName, ingredients);
+        console.log(this.customers);
+        this.customers[name] = drink;
+        console.log(drink)
+        return drink;
     }
 
     Bartender.prototype.nameDrink = function(ingredients){
@@ -90,7 +92,6 @@ $(function() {
             var drinkName = drinkAdj[adjectiveIndex] + " " + drinkNouns[nounIndex];
             console.log(drinkName)
             return drinkName;
-
         };
 
 
@@ -139,7 +140,6 @@ $(function() {
 
     // ask user for name when order drink is clicked
     $('.order-drink').click(function() {
-        // grab the bartender
         $('.intro').addClass("hidden");
         $('.enter-name').removeClass("hidden");
     });
@@ -148,24 +148,23 @@ $(function() {
     $(document).on('submit', '#form-name', function(event) {
         event.preventDefault();
         var customerName = $('#customer-name').val();
-        $('.enter-name').addClass('hidden');
-        // ryan.greetCustomer();
+        guest = new Customer(customerName);
+        ryan.greetCustomer(guest);
+        // if you know the customer, serve their drink
+        // else askQuestions
         askQuestions();
-        // } else {
-        // askQuestions();
-        // }
+        $('.enter-name').addClass('hidden');
         console.log(customerName);
     });
-
     var count = 0;
-    var guest = new Customer("Bill", "", []);
+    var guest;
 
     // ask questions about drink type
     function askQuestions() {
         $(".questions-form").empty();
         if (count < ryan.questions.length) {
             var displayQuestion = "<label for='userpref'>" + ryan.questions[count].question + "</label>";
-            var answer = "<select id='userpref'><option value='yes'>Aye!</option><option value='no'>Nay</option></select>";
+            var answer = "<br><select id='userpref'><option value='yes'>Aye! That sounds great.</option><option value='no'>Nay, none of that.</option></select>";
             var nextQuestion = "<br><button id='nextQuestion' type='button' class='btn btn-success'>Next</button>";
             $(".questions-form").append(displayQuestion, answer, nextQuestion);
         } else {
@@ -188,16 +187,25 @@ $(function() {
         if (guest.preferences.length === 0) {
             alert("We don't serve water");
         } else {
-            var drink = ryan.makeDrink(guest.preferences)
-                // guest.preferences == this.preferences
-                // bartender should make drink
-            // nameDrink();
+            var drink = ryan.makeDrink(guest.name, guest.preferences)
+            displayDrink();
+            startOver();
         }
     });
 
-    function displayDrink(drink, ingredients) {
+    function displayDrink(drinkName, ingredients) {
         $(".results").append("<h3>" + drink + "</h3>");
         $(".results").append("<h5>" + ingredients + "</h5>");
     }
 
+    function startOver(){
+        
+    }
+
 }); // end of doc ready
+
+// TODO
+// don't provide questions if you know the customer, serve drinks
+// build start over state
+// update the UI to reflect what's happening
+//

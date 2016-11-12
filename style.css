@@ -35,7 +35,17 @@ input {
 
 .questions-form {
     font-family: "Roboto", Helvetica;
-    font-size: 18px;
+    font-size: 34px;
+    line-height: 40px;
+    margin: 24px 0;
+}
+
+select#userpref {
+  height: 40px;
+  width: 200px;
+  margin: 40px 0;
+  font-family: "Roboto", Helvetica;
+
 }
 
 input[type="checkbox" i] {
