@@ -1,0 +1,54 @@
+* {
+	box-sizing: border-box;
+}
+
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+input {
+  height: 40px;
+  width: 200px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.btn {
+  height: 40px;
+  width: 120px;
+  background-color: #168FA1;
+  border: none;
+  font-family: "Roboto", Helvetica; sans-serif;
+  font-size: 18px;
+  color: white;
+}
+
+.btn-order {
+  margin-right: 30px;
+}
+.btn-preferences {
+  margin-top: 30px;
+}
+
+.questions-form {
+    font-family: "Roboto", Helvetica; sans-serif;
+    font-size: 34px;
+    line-height: 40px;
+    margin: 24px 0;
+}
+
+select#userpref {
+  height: 40px;
+  width: 200px;
+  margin: 40px 0;
+  font-size: 14px;
+}
+
+input[type="checkbox" i] {
+  margin-left: 20px;
+}
+
+.hidden {
+  display: none;
+}
